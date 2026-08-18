@@ -9,14 +9,13 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Swiper CSS (Slider) -->
+  <!-- Swiper CSS (For Banner Slider) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: linear-gradient(rgba(15, 23, 42, 0.90), rgba(15, 23, 42, 0.95)), 
-                  url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=1200&q=80') center/cover fixed no-repeat;
+      background-color: #0f172a;
       color: #ffffff;
     }
     ::-webkit-scrollbar {
@@ -28,13 +27,15 @@
     }
     .swiper-pagination-bullet-active {
       background: #eab308 !important;
+      width: 20px !important;
+      border-radius: 10px !important;
     }
     .swiper-pagination-bullet {
       background: #94a3b8;
     }
   </style>
 </head>
-<body class="pb-24 min-h-screen relative">
+<body class="pb-24 min-h-screen relative bg-slate-950">
 
   <!-- Header Section -->
   <header class="flex justify-between items-center p-4 bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
@@ -80,29 +81,96 @@
   <!-- Main Content Container -->
   <main class="max-w-4xl mx-auto p-4 space-y-6">
 
-    <!-- Customized Main Offer Banner -->
-    <section class="swiper offerSwiper rounded-2xl overflow-hidden border border-amber-500/30 shadow-2xl relative">
+    <!-- Sliding Offer Banner Frame (Auto-sliding Offers) -->
+    <section class="swiper offerSwiper rounded-2xl overflow-hidden border-2 border-amber-500/50 shadow-2xl relative">
       <div class="swiper-wrapper">
-        <div class="swiper-slide bg-gradient-to-r from-red-700 via-orange-600 to-amber-600 p-6 text-white flex flex-col justify-center min-h-[160px]">
-          <span class="bg-black/50 text-yellow-300 font-extrabold px-3 py-1 rounded-md text-xs w-max border border-yellow-400/40 uppercase tracking-widest mb-2 shadow-md">
-            🔥 WELCOME BONUS
-          </span>
-          <h2 class="text-xl sm:text-2xl font-black tracking-tight text-white drop-shadow leading-tight">
-            Welcome to legitimate family <br>
-            <span class="text-yellow-300">Always open</span>
-          </h2>
-          <p class="text-xs sm:text-sm font-semibold text-amber-100 mt-2">
-            Amazing bonus on your every deposit — Play and win!
+        
+        <!-- Slide 1: MAIN FOCUS - $10 FREEPLAY & Welcome -->
+        <div class="swiper-slide bg-gradient-to-r from-red-600 via-orange-600 to-amber-500 p-6 text-white flex flex-col justify-center min-h-[200px] relative">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-black/60 text-yellow-300 font-extrabold px-3 py-1 rounded-md text-xs border border-yellow-400/50 uppercase tracking-wider flex items-center gap-1 shadow-md">
+              <i class="fa-solid fa-fire text-amber-400"></i> MAIN OFFER
+            </span>
+            <span class="bg-yellow-400 text-slate-950 font-black px-2 py-0.5 rounded text-[10px] uppercase">Always Open</span>
+          </div>
+          
+          <div class="my-1">
+            <h2 class="text-2xl sm:text-3xl font-black text-yellow-300 drop-shadow-md uppercase tracking-tight">
+              🎁 $10 FREEPLAY BONUS
+            </h2>
+            <p class="text-lg sm:text-xl font-bold text-white leading-tight mt-1">
+              Welcome to legitimate family
+            </p>
+          </div>
+          
+          <p class="text-xs sm:text-sm font-semibold text-amber-100 mt-1">
+            Instant claim for all new members — Play and win!
           </p>
+          
           <div class="flex gap-2 mt-4">
-            <button onclick="openLiveChat()" class="bg-slate-950 text-yellow-400 text-xs font-bold px-4 py-2 rounded-lg border border-yellow-500/40 hover:bg-slate-900 transition">
-              Get Bonus
+            <button onclick="openLiveChat()" class="bg-slate-950 text-yellow-400 text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-lg border border-yellow-500/50 hover:bg-slate-900 transition shadow-lg flex items-center gap-1.5">
+              <i class="fa-solid fa-gift text-yellow-400"></i> Claim $10 Freeplay
             </button>
-            <a href="https://t.me/your_telegram_username" target="_blank" rel="noopener noreferrer" class="bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-lg hover:bg-sky-600 transition flex items-center gap-1">
+            <a href="https://t.me/your_telegram_username" target="_blank" rel="noopener noreferrer" class="bg-sky-500 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-lg hover:bg-sky-600 transition flex items-center gap-1">
               <i class="fa-brands fa-telegram"></i> Telegram
             </a>
           </div>
         </div>
+
+        <!-- Slide 2: 100% Welcome Bonus -->
+        <div class="swiper-slide bg-gradient-to-r from-amber-600 via-orange-700 to-red-800 p-6 text-white flex flex-col justify-center min-h-[200px]">
+          <span class="bg-black/50 text-yellow-300 font-extrabold px-3 py-1 rounded-md text-xs w-max border border-yellow-400/40 uppercase tracking-widest mb-2 shadow-md">
+            🔥 1ST DEPOSIT OFFER
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow">
+            100% WELCOME BONUS
+          </h2>
+          <p class="text-xs sm:text-sm font-semibold text-amber-100 mt-2">
+            Double your first deposit instantly on any game!
+          </p>
+          <div class="flex gap-2 mt-4">
+            <button onclick="openLiveChat()" class="bg-yellow-400 text-slate-950 text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-lg hover:bg-yellow-300 transition shadow-lg">
+              Get 100% Bonus
+            </button>
+          </div>
+        </div>
+
+        <!-- Slide 3: 50% Second Deposit Bonus -->
+        <div class="swiper-slide bg-gradient-to-r from-purple-800 via-slate-900 to-indigo-900 p-6 text-white flex flex-col justify-center min-h-[200px]">
+          <span class="bg-black/50 text-purple-300 font-extrabold px-3 py-1 rounded-md text-xs w-max border border-purple-400/40 uppercase tracking-widest mb-2 shadow-md">
+            💎 2ND DEPOSIT REWARD
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-yellow-300 drop-shadow">
+            50% SECOND DEPOSIT BONUS
+          </h2>
+          <p class="text-xs sm:text-sm font-semibold text-purple-200 mt-2">
+            Keep winning with extra 50% bonus on your second deposit!
+          </p>
+          <div class="flex gap-2 mt-4">
+            <button onclick="openLiveChat()" class="bg-amber-500 text-slate-950 text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-lg hover:bg-amber-400 transition shadow-lg">
+              Deposit & Claim
+            </button>
+          </div>
+        </div>
+
+        <!-- Slide 4: $10 - $100 Referral Bonus -->
+        <div class="swiper-slide bg-gradient-to-r from-emerald-700 via-teal-800 to-slate-900 p-6 text-white flex flex-col justify-center min-h-[200px]">
+          <span class="bg-black/50 text-emerald-300 font-extrabold px-3 py-1 rounded-md text-xs w-max border border-emerald-400/40 uppercase tracking-widest mb-2 shadow-md">
+            👥 REFERRAL PROGRAM
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-black tracking-tight text-emerald-300 drop-shadow">
+            $10 - $100 REFERRAL BONUS
+          </h2>
+          <p class="text-xs sm:text-sm font-semibold text-emerald-100 mt-2">
+            Invite your friends & earn up to $100 for every referral!
+          </p>
+          <div class="flex gap-2 mt-4">
+            <button onclick="openLiveChat()" class="bg-emerald-400 text-slate-950 text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-lg hover:bg-emerald-300 transition shadow-lg">
+              Refer a Friend
+            </button>
+          </div>
+        </div>
+
       </div>
       <div class="swiper-pagination"></div>
     </section>
@@ -160,13 +228,20 @@
 
   <!-- Application Logic -->
   <script>
+    // Initialize Auto-sliding Offer Banner (3.5 Seconds Delay)
     const swiper = new Swiper('.offerSwiper', {
       loop: true,
-      autoplay: { delay: 3500, disableOnInteraction: false },
-      pagination: { el: '.swiper-pagination', clickable: true },
+      autoplay: { 
+        delay: 3500, 
+        disableOnInteraction: false 
+      },
+      pagination: { 
+        el: '.swiper-pagination', 
+        clickable: true 
+      },
     });
 
-    // Games Array
+    // Games List
     const gamesList = [
       { name: "Juwa 777", link: "https://dl.juwa777.com", image: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=400&q=80" },
       { name: "GameVault", link: "https://download.gamevault999.com", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80" },
