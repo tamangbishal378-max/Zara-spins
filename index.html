@@ -1,21 +1,26 @@
 <!DOCTYPE html>
-<html lang="ne">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Casino Gaming Hub</title>
+  <title>American Gaming Zone</title>
   
   <!-- Tailwind CSS & FontAwesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
+  <!-- Swiper CSS (Slider) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
   <!-- Supabase JS Library -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #0f172a;
+      /* Dark Casino Background Image */
+      background: linear-gradient(rgba(15, 23, 42, 0.90), rgba(15, 23, 42, 0.95)), 
+                  url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=1200&q=80') center/cover fixed no-repeat;
       color: #ffffff;
     }
     ::-webkit-scrollbar {
@@ -25,43 +30,49 @@
       background: #334155;
       border-radius: 4px;
     }
+    .swiper-pagination-bullet-active {
+      background: #eab308 !important;
+    }
+    .swiper-pagination-bullet {
+      background: #94a3b8;
+    }
   </style>
 </head>
-<body class="pb-24">
+<body class="pb-24 min-h-screen">
 
   <!-- Header Section -->
-  <header class="flex justify-between items-center p-4 bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+  <header class="flex justify-between items-center p-4 bg-slate-900/90 backdrop-blur border-b border-slate-800 sticky top-0 z-50">
     <div class="flex items-center space-x-2">
-      <span class="text-2xl">🎰</span>
-      <h1 class="text-xl font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-        Casino Hub
+      <span class="text-2xl">🦅</span>
+      <h1 class="text-lg font-extrabold bg-gradient-to-r from-yellow-400 via-amber-300 to-orange-500 bg-clip-text text-transparent uppercase tracking-wider">
+        American Gaming Zone
       </h1>
     </div>
     <div class="space-x-2">
-      <button class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-sm font-semibold rounded-lg border border-slate-700">
+      <button onclick="openLiveChat()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg border border-slate-700 transition">
         Login
       </button>
-      <button class="px-4 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 text-sm font-bold rounded-lg hover:opacity-90">
+      <button onclick="openLiveChat()" class="px-3.5 py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 text-xs font-bold rounded-lg hover:opacity-90 shadow-lg shadow-amber-500/20 transition">
         Register
       </button>
     </div>
   </header>
 
   <!-- Category Nav Tabs -->
-  <div class="grid grid-cols-5 gap-2 p-3 bg-slate-900/80 border-b border-slate-800 text-center text-xs">
-    <button class="p-2 bg-slate-800 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center">
+  <div class="grid grid-cols-5 gap-2 p-3 bg-slate-900/80 backdrop-blur border-b border-slate-800 text-center text-xs">
+    <button onclick="filterCategory('all')" class="p-2 bg-slate-800/80 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center transition">
       <i class="fa-solid fa-fire text-orange-500 text-base mb-1"></i>Hot
     </button>
-    <button class="p-2 bg-slate-800 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center">
+    <button onclick="filterCategory('all')" class="p-2 bg-slate-800/80 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center transition">
       <i class="fa-solid fa-bolt text-yellow-400 text-base mb-1"></i>Instant
     </button>
-    <button class="p-2 bg-slate-800 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center">
+    <button onclick="filterCategory('slot')" class="p-2 bg-slate-800/80 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center transition">
       <i class="fa-solid fa-gamepad text-blue-400 text-base mb-1"></i>Slots
     </button>
-    <button class="p-2 bg-slate-800 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center">
+    <button onclick="filterCategory('casino')" class="p-2 bg-slate-800/80 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center transition">
       <i class="fa-solid fa-dice text-red-500 text-base mb-1"></i>Casino
     </button>
-    <button class="p-2 bg-slate-800 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center">
+    <button onclick="filterCategory('cards')" class="p-2 bg-slate-800/80 rounded-xl hover:bg-slate-700 border border-slate-700 flex flex-col items-center transition">
       <i class="fa-solid fa-spade text-purple-400 text-base mb-1"></i>Cards
     </button>
   </div>
@@ -69,13 +80,69 @@
   <!-- Main Content Container -->
   <main class="max-w-4xl mx-auto p-4 space-y-6">
 
-    <!-- Web Game Frame Section -->
-    <section class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900 shadow-xl">
-      <div class="px-4 py-2 bg-slate-800 text-xs font-semibold text-gray-400 border-b border-slate-700 flex justify-between items-center">
-        <span>🎮 Live Web Game Frame</span>
-        <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+    <!-- Automatic Sliding Offer Banner Box -->
+    <section class="swiper offerSwiper rounded-2xl overflow-hidden border border-amber-500/30 shadow-2xl relative">
+      <div class="swiper-wrapper">
+        
+        <!-- Slide 1: Instant Freeplay (Bold Highlighted) -->
+        <div class="swiper-slide bg-gradient-to-r from-red-700 via-orange-600 to-amber-600 p-6 text-white flex flex-col justify-center min-h-[140px]">
+          <span class="bg-black/50 text-yellow-300 font-extrabold px-3 py-1 rounded-md text-xs w-max border border-yellow-400/40 uppercase tracking-widest mb-1 shadow-md">
+            🔥 $10 INSTANT FREEPLAY
+          </span>
+          <h2 class="text-2xl font-black tracking-tight text-white drop-shadow">CLAIM INSTANT PLAY CREDIT NOW!</h2>
+          <p class="text-xs text-amber-100 mt-1">Contact Live Support to activate instant freeplay immediately.</p>
+          <button onclick="openLiveChat()" class="mt-3 bg-slate-950 text-yellow-400 text-xs font-bold px-4 py-2 rounded-lg w-max border border-yellow-500/40 hover:bg-slate-900 transition">
+            Claim $10 Free
+          </button>
+        </div>
+
+        <!-- Slide 2: 100% Signup Bonus -->
+        <div class="swiper-slide bg-gradient-to-r from-amber-600 via-yellow-600 to-orange-700 p-6 text-white flex flex-col justify-center min-h-[140px]">
+          <span class="bg-black/40 text-[10px] font-bold px-2.5 py-0.5 rounded w-max text-yellow-300 border border-yellow-400/30 uppercase tracking-wide mb-1">
+            🎁 NEW MEMBER
+          </span>
+          <h2 class="text-xl font-black">100% Signup Bonus</h2>
+          <p class="text-xs text-amber-100 mt-1">Double your first deposit instantly on American Gaming Zone!</p>
+          <button onclick="openLiveChat()" class="mt-3 bg-slate-950 text-yellow-400 text-xs font-bold px-3.5 py-1.5 rounded-lg w-max border border-yellow-500/40">
+            Deposit Now
+          </button>
+        </div>
+
+        <!-- Slide 3: 60% Second Deposit Bonus -->
+        <div class="swiper-slide bg-gradient-to-r from-purple-800 via-indigo-700 to-blue-800 p-6 text-white flex flex-col justify-center min-h-[140px]">
+          <span class="bg-black/40 text-[10px] font-bold px-2.5 py-0.5 rounded w-max text-cyan-300 border border-cyan-400/30 uppercase tracking-wide mb-1">
+            ⚡ RELOAD DEAL
+          </span>
+          <h2 class="text-xl font-black">60% Second Deposit Bonus</h2>
+          <p class="text-xs text-indigo-100 mt-1">Get 60% extra credit on your second account recharge.</p>
+          <button onclick="openLiveChat()" class="mt-3 bg-slate-950 text-cyan-400 text-xs font-bold px-3.5 py-1.5 rounded-lg w-max border border-cyan-500/40">
+            Claim Bonus
+          </button>
+        </div>
+
+        <!-- Slide 4: $20 Referral Bonus -->
+        <div class="swiper-slide bg-gradient-to-r from-emerald-700 via-teal-700 to-cyan-800 p-6 text-white flex flex-col justify-center min-h-[140px]">
+          <span class="bg-black/40 text-[10px] font-bold px-2.5 py-0.5 rounded w-max text-emerald-300 border border-emerald-400/30 uppercase tracking-wide mb-1">
+            👥 REFER & EARN
+          </span>
+          <h2 class="text-xl font-black">$20 Referral Bonus</h2>
+          <p class="text-xs text-emerald-100 mt-1">Invite your friends and earn $20 free reward per referral.</p>
+          <button onclick="openLiveChat()" class="mt-3 bg-slate-950 text-emerald-400 text-xs font-bold px-3.5 py-1.5 rounded-lg w-max border border-emerald-500/40">
+            Invite Friends
+          </button>
+        </div>
+
       </div>
-      <div class="w-full h-[300px] sm:h-[400px]">
+      <div class="swiper-pagination"></div>
+    </section>
+
+    <!-- Web Game Frame Section -->
+    <section class="rounded-xl overflow-hidden border border-slate-800 bg-slate-900/90 shadow-xl backdrop-blur">
+      <div class="px-4 py-2 bg-slate-800/90 text-xs font-semibold text-gray-400 border-b border-slate-700 flex justify-between items-center">
+        <span class="flex items-center gap-2"><i class="fa-solid fa-gamepad text-yellow-500"></i> American Gaming Web Frame</span>
+        <span class="inline-block w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      </div>
+      <div class="w-full h-[280px] sm:h-[380px]">
         <iframe 
           class="w-full h-full border-0" 
           src="https://6519639f8eed2f46d2016665--unrivaled-sorbet-6c774a.netlify.app/" 
@@ -86,23 +153,26 @@
 
     <!-- Available Games Grid Section -->
     <section>
-      <h2 class="text-lg font-bold border-l-4 border-yellow-500 pl-3 mb-4">
-        🎮 Available Games
-      </h2>
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold border-l-4 border-yellow-500 pl-3">
+          🎮 Available Games
+        </h2>
+        <span class="text-xs text-slate-400">Click card to play</span>
+      </div>
       <div id="gameGrid" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
-        <!-- JS renders games here -->
+        <!-- JS renders games dynamically -->
       </div>
     </section>
 
-    <!-- Live Community Chat Section -->
-    <section class="bg-slate-900 p-4 rounded-xl border border-slate-800">
+    <!-- Community Live Chat Section -->
+    <section class="bg-slate-900/90 backdrop-blur p-4 rounded-xl border border-slate-800">
       <h3 class="text-md font-bold mb-3 flex items-center gap-2 text-yellow-400">
-        <i class="fa-solid fa-comments"></i> Live Chat
+        <i class="fa-solid fa-comments"></i> Community Live Chat
       </h3>
       
-      <!-- Chat Box -->
-      <div id="chat-box" class="h-48 overflow-y-auto bg-slate-950 p-3 rounded-lg border border-slate-800 space-y-2 text-sm mb-3">
-        <p class="text-xs text-gray-500 italic">Welcome to community chat!</p>
+      <!-- Chat Display Box -->
+      <div id="chat-box" class="h-44 overflow-y-auto bg-slate-950/80 p-3 rounded-lg border border-slate-800 space-y-2 text-sm mb-3">
+        <p class="text-xs text-gray-500 italic">Welcome to American Gaming Zone community chat!</p>
       </div>
 
       <!-- Chat Inputs -->
@@ -129,24 +199,86 @@
 
   </main>
 
+  <!-- Bonus Details Modal Popup -->
+  <div id="bonusModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-amber-500/40 w-full max-w-md rounded-2xl p-5 shadow-2xl relative space-y-4">
+      <button onclick="toggleBonusModal()" class="absolute top-3 right-3 text-gray-400 hover:text-white text-lg">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <div class="text-center border-b border-slate-800 pb-3">
+        <h3 class="text-xl font-black text-yellow-400 uppercase tracking-wide">🎁 Special Promotions</h3>
+        <p class="text-xs text-slate-400">American Gaming Zone Bonus Rewards</p>
+      </div>
+      <div class="space-y-3 text-xs">
+        <div class="bg-slate-800/80 p-3 rounded-xl border border-amber-500/20 flex justify-between items-center">
+          <div>
+            <p class="font-bold text-white text-sm">100% Signup Bonus</p>
+            <p class="text-gray-400">On your 1st deposit recharge</p>
+          </div>
+          <span class="bg-amber-500/20 text-yellow-400 font-bold px-2 py-1 rounded">100%</span>
+        </div>
+        <div class="bg-slate-800/80 p-3 rounded-xl border border-amber-500/20 flex justify-between items-center">
+          <div>
+            <p class="font-bold text-white text-sm">50% Second Deposit Bonus</p>
+            <p class="text-gray-400">On your 2nd deposit recharge</p>
+          </div>
+          <span class="bg-blue-500/20 text-blue-400 font-bold px-2 py-1 rounded">50%</span>
+        </div>
+        <div class="bg-slate-800/80 p-3 rounded-xl border border-amber-500/20 flex justify-between items-center">
+          <div>
+            <p class="font-bold text-white text-sm">10% Daily Reload Bonus</p>
+            <p class="text-gray-400">Claim everyday on refills</p>
+          </div>
+          <span class="bg-emerald-500/20 text-emerald-400 font-bold px-2 py-1 rounded">10%</span>
+        </div>
+        <div class="bg-slate-800/80 p-3 rounded-xl border border-amber-500/20 flex justify-between items-center">
+          <div>
+            <p class="font-bold text-white text-sm">$10 - $100 Referral Bonus</p>
+            <p class="text-gray-400">Per friend invited</p>
+          </div>
+          <span class="bg-purple-500/20 text-purple-400 font-bold px-2 py-1 rounded">$10-$100</span>
+        </div>
+      </div>
+      <button onclick="openLiveChat(); toggleBonusModal();" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-bold text-xs rounded-xl shadow-lg">
+        Claim Rewards via Support
+      </button>
+    </div>
+  </div>
+
   <!-- Bottom Navigation Bar -->
   <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur border-t border-slate-800 flex justify-around py-2 text-xs text-slate-400 z-50">
-    <a href="#" class="text-yellow-400 flex flex-col items-center space-y-1">
+    <a href="#" onclick="filterCategory('all')" class="text-yellow-400 flex flex-col items-center space-y-1">
       <i class="fa-solid fa-house text-base"></i><span>Home</span>
     </a>
-    <a href="#" class="hover:text-white flex flex-col items-center space-y-1">
-      <i class="fa-solid fa-gift text-base"></i><span>Rewards</span>
-    </a>
-    <a href="#" class="hover:text-white flex flex-col items-center space-y-1">
+    <button onclick="toggleBonusModal()" class="hover:text-white flex flex-col items-center space-y-1">
+      <i class="fa-solid fa-gift text-base text-amber-400"></i><span class="text-amber-400 font-semibold">Bonus</span>
+    </button>
+    <button onclick="openLiveChat()" class="hover:text-white flex flex-col items-center space-y-1">
       <i class="fa-solid fa-user-plus text-base"></i><span>Register</span>
-    </a>
-    <a href="#" class="hover:text-white flex flex-col items-center space-y-1">
+    </button>
+    <button onclick="openLiveChat()" class="hover:text-white flex flex-col items-center space-y-1">
       <i class="fa-solid fa-user text-base"></i><span>Account</span>
-    </a>
+    </button>
   </nav>
 
-  <!-- Application JavaScript -->
+  <!-- Swiper JS Library -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Application JavaScript Logic -->
   <script>
+    // Initialize Banner Slider
+    const swiper = new Swiper('.offerSwiper', {
+      loop: true,
+      autoplay: {
+        delay: 3500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+    });
+
     // Supabase Configuration
     const SUPABASE_URL = "https://your-supabase-url.supabase.co";
     const SUPABASE_KEY = "your-anon-key";
@@ -154,36 +286,63 @@
       ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) 
       : null;
 
-    // Game List Items
+    // Games Data List with exact custom URLs and Photos
     const gamesList = [
-      { name: "Juwa 777", icon: "🐉", category: "Slot", color: "from-amber-600 to-red-600" },
-      { name: "Orion Star", icon: "🌌", category: "Fish Game", color: "from-blue-600 to-indigo-700" },
-      { name: "Milkyway", icon: "⭐", category: "Arcade", color: "from-purple-600 to-pink-600" },
-      { name: "GameVault", icon: "🎰", category: "Slot", color: "from-emerald-600 to-teal-700" },
-      { name: "Fire Kirin", icon: "🔥", category: "Fish Game", color: "from-orange-600 to-red-700" },
-      { name: "Panda Master", icon: "🐼", category: "Slot", color: "from-slate-700 to-slate-900" }
+      { name: "Juwa 777", link: "https://dl.juwa777.com", image: "https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=400&q=80" },
+      { name: "GameVault", link: "https://download.gamevault999.com", image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=400&q=80" },
+      { name: "Orion Star", link: "https://orionstarsonline.com", image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?auto=format&fit=crop&w=400&q=80" },
+      { name: "Ultra Panda", link: "https://www.ultrapanda.mobi", image: "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=400&q=80" },
+      { name: "Panda Master", link: "https://pandamaster.vip:8888", image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=400&q=80" },
+      { name: "VBlink", link: "https://www.vblink777.club", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" },
+      { name: "Fire Kirin", link: "https://web.firekirin.xyz/firekirin/firekirin/", image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=400&q=80" },
+      { name: "Las Vegas Sweeps", link: "https://m.lasvegassweeps.com", image: "https://images.unsplash.com/photo-1508801939243-2a11b0e35f08?auto=format&fit=crop&w=400&q=80" },
+      { name: "Milkyway", link: "https://milkywayapp.xyz", image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=400&q=80" }
     ];
 
+    // Render Games Grid
     function fetchGames() {
       const grid = document.getElementById('gameGrid');
       if (grid) {
         grid.innerHTML = gamesList.map(game => `
-          <div class="bg-slate-900 rounded-xl overflow-hidden border border-slate-800 hover:border-slate-600 transition flex flex-col justify-between group">
-            <div class="h-24 bg-gradient-to-tr ${game.color} flex items-center justify-center text-3xl group-hover:scale-105 transition">
-              ${game.icon}
+          <a href="${game.link}" target="_blank" rel="noopener noreferrer" class="bg-slate-900/90 rounded-xl overflow-hidden border border-slate-800 hover:border-amber-500/60 transition duration-300 flex flex-col justify-between group shadow-xl hover:scale-[1.02]">
+            <div class="h-28 overflow-hidden relative">
+              <img src="${game.image}" alt="${game.name}" class="w-full h-full object-cover group-hover:scale-110 transition duration-300" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent"></div>
             </div>
-            <div class="p-3 text-center">
-              <h3 class="font-bold text-xs text-white">${game.name}</h3>
-              <p class="text-[10px] text-slate-400 mb-2">${game.category}</p>
-              <button class="w-full py-1 bg-yellow-500 hover:bg-yellow-400 text-slate-950 text-xs font-bold rounded">
+            <div class="p-3 text-center bg-slate-900">
+              <h3 class="font-bold text-xs text-white group-hover:text-yellow-400 transition">${game.name}</h3>
+              <p class="text-[10px] text-slate-400 mb-2">Slot & Fish Arcade</p>
+              <div class="w-full py-1.5 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 text-xs font-black rounded-lg shadow-md hover:opacity-90 transition">
                 Play Now
-              </button>
+              </div>
             </div>
-          </div>
+          </a>
         `).join('');
       }
     }
 
+    function filterCategory(cat) {
+      fetchGames();
+    }
+
+    // Modal Trigger
+    function toggleBonusModal() {
+      const modal = document.getElementById('bonusModal');
+      if (modal) {
+        modal.classList.toggle('hidden');
+      }
+    }
+
+    // Tawk.to Open Control
+    function openLiveChat() {
+      if (window.Tawk_API && typeof window.Tawk_API.maximize === 'function') {
+        window.Tawk_API.maximize();
+      } else {
+        alert("Live support is connecting... Please type in the bottom live chat box.");
+      }
+    }
+
+    // Community Chat Logic
     async function sendMessage() {
       const usernameInput = document.getElementById('username');
       const messageInput = document.getElementById('message');
@@ -195,7 +354,7 @@
       if (!message) return;
 
       const newMsg = document.createElement('div');
-      newMsg.className = "p-1.5 bg-slate-900 rounded text-xs border border-slate-800";
+      newMsg.className = "p-1.5 bg-slate-900/90 rounded text-xs border border-slate-800";
       newMsg.innerHTML = `<span class="font-bold text-yellow-400">${username}:</span> ${message}`;
       chatBox.appendChild(newMsg);
       chatBox.scrollTop = chatBox.scrollHeight;
@@ -207,6 +366,7 @@
       }
     }
 
+    // Initialize Page
     document.addEventListener("DOMContentLoaded", () => {
       fetchGames();
 
@@ -218,7 +378,7 @@
             const chatBox = document.getElementById('chat-box');
             if (chatBox) {
               const div = document.createElement('div');
-              div.className = "p-1.5 bg-slate-900 rounded text-xs border border-slate-800";
+              div.className = "p-1.5 bg-slate-900/90 rounded text-xs border border-slate-800";
               div.innerHTML = `<span class="font-bold text-yellow-400">${msg.username}:</span> ${msg.message}`;
               chatBox.appendChild(div);
               chatBox.scrollTop = chatBox.scrollHeight;
@@ -229,7 +389,7 @@
     });
   </script>
 
-  <!-- Tawk.to Script -->
+  <!-- Start of Tawk.to Live Chat Script -->
   <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
     (function(){
@@ -241,6 +401,7 @@
       s0.parentNode.insertBefore(s1,s0);
     })();
   </script>
+  <!-- End of Tawk.to Script -->
 
 </body>
 </html>
