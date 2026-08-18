@@ -18,14 +18,40 @@
   </style>
 </head>
 <body>
-sb_publishable_WByST39n79LLRmfCr7_ODw_M_PFxcST
-  <h1>🎰 Casino Gaming Hub</h1>
-sb_publishable_WByST39n79LLRmfCr7_ODw_M_PFxcST
+  <h1>🎰 Casino Gaming Hub</
   <!-- Game Links Section -->
   <div class="section">
     <h2>🎮 Available Games</h2>
-    <div id="games-list">gamevault,juwa,firekirin,orionstar,milkyway</div>
+    <div id="games-list"</div>
   </div>
+<div class="card">
+    <h2>🎮 Available Games</h2>
+    
+    <div class="game-grid" id="gameGrid"></div>
+</div>
+
+<script>
+    // Game haruko list
+    const gamesList = [
+        { name: "Juwa", icon: "🎰", desc: "Classic Casino & Slots" },
+        { name: "Milkyway", icon: "🌌", desc: "Fish Games & Slots" },
+        { name: "Orion Star", icon: "⭐", desc: "Sweepstakes & Reels" },
+        { name: "Gamevault", icon: "🏛️", desc: "Premium Slot Collection" },
+        { name: "Panda Master", icon: "🐼", desc: "Fish Tables & Arcade" }
+    ];
+
+    const grid = document.getElementById('gameGrid');
+
+    // Grid bhitra game cards haru display garne
+    grid.innerHTML = gamesList.map(game => `
+        <div class="game-card">
+            <div class="game-icon">${game.icon}</div>
+            <h3>${game.name}</h3>
+            <p>${game.desc}</p>
+            <button class="play-btn">Play Now</button>
+        </div>
+    `).join('');
+</script>
 
   <!-- Live Chat Section -->
   <div class="section">
